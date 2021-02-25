@@ -43,7 +43,7 @@ int proc_init(void)
         // the following function call is a wrapper for
         // proc_create_data() passing NULL as the last argument
         proc_create(PROC_NAME, 0, NULL, &proc_ops);
-
+        start = jiffies/HZ;
         printk(KERN_INFO "/proc/%s created\n", PROC_NAME);
 
 	return 0;
@@ -85,6 +85,8 @@ ssize_t proc_read(struct file *file, char __user *usr_buf, size_t count, loff_t 
         }
 
         completed = 1;
+
+        end = jiffies/HZ;
 
         rv = sprintf(buffer, "kernel: %lu sec\n", end - start);
 
